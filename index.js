@@ -9,7 +9,7 @@ const question =
 try {
 
   const response = await fetch(
-    "https://YOUR-WORKER.workers.dev",
+    "https://chat-api.patelnamra573.workers.dev/",
     {
       method: "POST",
 
