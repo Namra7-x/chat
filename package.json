@@ -1,0 +1,11 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "chat": "index.js"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
