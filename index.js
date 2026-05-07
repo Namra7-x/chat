@@ -2,43 +2,49 @@
 
 import readlineSync from "readline-sync";
 
-console.log("\n🚀 Namra AI Terminal\n");
+const question =
+  process.argv.slice(2).join(" ")
+  || readlineSync.question("Ask AI: ");
 
-const question = readlineSync.question("Ask AI: ");
+try {
 
-async function askAI() {
+  const response = await fetch(
+    "https://YOUR-WORKER.workers.dev",
+    {
+      method: "POST",
 
-  try {
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-    const response = await fetch(
-      "https://chat-api.patelnamra573.workers.dev",
-      {
-        method: "POST",
+      body: JSON.stringify({
+        question
+      })
+    }
+  );
 
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer namra-secret"
-        },
+  const data = await response.json();
 
-        body: JSON.stringify({
-          question
-        })
-      }
-    );
+  // FULL DEBUG
+  console.log("\nDEBUG RESPONSE:\n");
+  console.log(JSON.stringify(data, null, 2));
 
-    const data = await response.json();
+  // SUCCESS
+  if (data.success) {
 
-    console.log("\n🤖 Gemma 4 31B:\n");
-
+    console.log("\n🤖 AI:\n");
     console.log(data.reply);
 
-  } catch (err) {
+  } else {
 
-    console.log("\nError:");
-    console.log(err.message);
+    console.log("\n❌ ERROR:\n");
+    console.log(data.error);
 
   }
 
-}
+} catch (err) {
 
-askAI();
+  console.log("\n❌ CLIENT ERROR:\n");
+  console.log(err.message);
+
+}
